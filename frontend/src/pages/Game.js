@@ -28,11 +28,12 @@ function Game() {
   function Chat({ messages }) {
     return (
       <div className="Chat">
-        {messages.map((message) => (
+        {messages.map((message, i) => (
           <div
             className={
               message.sender === "user" ? "message-right" : "message-left"
             }
+            key={i}
           >
             <div
               className="Message"

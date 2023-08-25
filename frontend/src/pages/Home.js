@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 function Home() {
   function Title() {
@@ -14,8 +15,17 @@ function Home() {
     );
   }
 
+  function Music() {
+    return (
+      <audio loop>
+        <source src={require("../music/nice.mp3")} type="audio/mpeg" />
+      </audio>
+    );
+  }
+
   return (
     <div className="Home">
+      <Music />
       <Title />
       <StartButton />
     </div>
