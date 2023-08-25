@@ -1,6 +1,21 @@
 import { rankUpImage, rankDownImage, stayImage } from "../images/images";
+import { Button } from "react-bootstrap";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Leaderboard() {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+
+    async function handleLogout() {
+        try {
+            await logout();
+            navigate("/login");
+        } catch {
+            console.log("Failed to log out");
+        }
+    }
+
     return (
         <div style={{ padding: "10px 40px" }}>
             <h1>Leaderboard</h1>
@@ -32,7 +47,6 @@ function Leaderboard() {
                                 <img
                                     style={{
                                         marginRight: "8px",
-                                        marginBottom: "-5px",
                                     }}
                                     src={
                                         data.yesterdayIndex > index
@@ -41,6 +55,7 @@ function Leaderboard() {
                                             ? rankDownImage
                                             : stayImage
                                     }
+                                    alt="rank change"
                                     height="20px"
                                 />
                                 {index + 1}
@@ -51,7 +66,7 @@ function Leaderboard() {
                                 <img
                                     height={32}
                                     src={`https://flagsapi.com/${data.nationality}/flat/64.png`}
-                                    // style={{ border: "1px solid black" }}
+                                    alt="flag"
                                 />
                             </td>
                             <td>{data.skillRating}</td>
@@ -59,6 +74,14 @@ function Leaderboard() {
                     ))}
                 </tbody>
             </table>
+
+            <Button
+                variant="primary"
+                onClick={handleLogout}
+                style={{ margin: "10px" }}
+            >
+                Log Out
+            </Button>
         </div>
     );
 }
