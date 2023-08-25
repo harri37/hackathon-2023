@@ -1,12 +1,25 @@
 import React from "react";
-import { homeImage } from "../images/images";
+import { Link } from "react-router-dom";
 
 function Home() {
   function Title() {
-    return <h1 className="Title">Home</h1>;
+    return <h1 className="Title">Rizz</h1>;
   }
 
-  return <div className="Home"></div>;
+  function StartButton() {
+    return (
+      <Link to="/game" className="StartButton">
+        Begin
+      </Link>
+    );
+  }
+
+  return (
+    <div className="Home">
+      <Title />
+      <StartButton />
+    </div>
+  );
 }
 
 export default Home;
