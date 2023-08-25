@@ -17,8 +17,33 @@ code {
   width: 100vw;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-image: url('./images/home.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.Title {
+  font-size: 5rem;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+  cursor: default;
+}
+
+.StartButton {
+  padding: 1rem 6rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #f5f5f5;
+  color: #000000;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.StartButton:hover {
+  background-color: #e0e0e0;
 }
