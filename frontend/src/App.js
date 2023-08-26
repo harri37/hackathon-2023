@@ -8,16 +8,25 @@ import Signup from "./pages/Signup";
 import PrivateRoute from "./components/PrivateRoute";
 import InternalRoute from "./components/InternalRoute";
 import Profile from "./pages/Profile";
+import Login from "./pages/Login";
 
 function App() {
     return (
         <AuthProvider>
             <Routes>
                 <Route
-                    path="/login"
+                    path="/signup"
                     element={
                         <InternalRoute>
                             <Signup />
+                        </InternalRoute>
+                    }
+                />
+                <Route
+                    path="/login"
+                    element={
+                        <InternalRoute>
+                            <Login />
                         </InternalRoute>
                     }
                 />

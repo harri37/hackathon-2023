@@ -66,7 +66,7 @@ export default function Profile() {
     return (
         <div className="Account">
             <MDBContainer className="py-5 opacity-75">
-                <Navbar />
+                <Navbar active="profile" />
 
                 <MDBRow className="py-4">
                     <MDBCol lg="4">

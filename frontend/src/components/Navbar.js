@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar(props) {
     const navigate = useNavigate();
 
     return (
@@ -21,7 +21,11 @@ export default function Navbar() {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <button
-                                className="nav-link"
+                                className={`nav-link ${
+                                    props.active === "home"
+                                        ? "text-primary"
+                                        : ""
+                                }`}
                                 onClick={() => navigate("/")}
                             >
                                 Home
@@ -29,7 +33,11 @@ export default function Navbar() {
                         </li>
                         <li className="nav-item">
                             <button
-                                className="nav-link"
+                                className={`nav-link ${
+                                    props.active === "game"
+                                        ? "text-primary"
+                                        : ""
+                                }`}
                                 onClick={() => navigate("/game")}
                             >
                                 Game
@@ -37,7 +45,11 @@ export default function Navbar() {
                         </li>
                         <li className="nav-item">
                             <button
-                                className="nav-link"
+                                className={`nav-link ${
+                                    props.active === "leaderboard"
+                                        ? "text-primary"
+                                        : ""
+                                }`}
                                 onClick={() => navigate("/leaderboard")}
                             >
                                 Leaderboard
@@ -45,7 +57,11 @@ export default function Navbar() {
                         </li>
                         <li className="nav-item">
                             <button
-                                className="nav-link"
+                                className={`nav-link ${
+                                    props.active === "profile"
+                                        ? "text-primary"
+                                        : ""
+                                }`}
                                 onClick={() => navigate("/profile")}
                             >
                                 Profile

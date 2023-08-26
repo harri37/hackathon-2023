@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { rankUpImage, rankDownImage, stayImage } from "../images/images";
-import { streamUsers } from "../contexts/Database";
+import { streamUsers, userExists } from "../contexts/Database";
 import { MDBContainer, MDBRow, MDBCard } from "mdb-react-ui-kit";
 import Navbar from "../components/Navbar";
 
@@ -19,14 +19,14 @@ function Leaderboard() {
             },
             (error) => console.log(error)
         );
+        userExists("Hugh").then((exists) => console.log(exists));
         return unsubscribe;
-        // setUsers(testUsers);
     }, []);
 
     return (
         <div className="Leaderboard">
             <MDBContainer className="py-5 opacity-75">
-                <Navbar />
+                <Navbar active="leaderboard" />
                 <MDBRow className="px-5 py-4">
                     <MDBCard className="pt-4 p-5">
                         <h1>Leaderboard</h1>

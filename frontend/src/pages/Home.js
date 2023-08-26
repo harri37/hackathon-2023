@@ -29,7 +29,7 @@ function Home() {
         <div className="Home">
             <div className="Navbar py-5 opacity-75">
                 <MDBContainer className="">
-                    <Navbar />
+                    <Navbar active="home" />
                 </MDBContainer>
             </div>
             <Music />
