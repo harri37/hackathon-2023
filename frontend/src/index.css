@@ -167,3 +167,18 @@ table.leaderboardTable th {
   color: gray;
   font-weight: normal;
 }
+
+/* Profile */
+
+.Account {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: top;
+  background-image: url('./images/profile.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+}

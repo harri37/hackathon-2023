@@ -7,6 +7,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import Signup from "./pages/Signup";
 
 import PrivateRoute from "./components/PrivateRoute";
+import Profile from "./pages/Profile";
 
 function App() {
     return (
@@ -34,6 +35,14 @@ function App() {
                     element={
                         <PrivateRoute>
                             <Leaderboard />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        <PrivateRoute>
+                            <Profile />
                         </PrivateRoute>
                     }
                 />
