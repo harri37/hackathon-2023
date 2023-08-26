@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { rankUpImage, rankDownImage, stayImage } from "../images/images";
-import { streamUsers, userExists } from "../contexts/Database";
+import { streamUsers } from "../contexts/Database";
 import { MDBContainer, MDBRow, MDBCard } from "mdb-react-ui-kit";
 import Navbar from "../components/Navbar";
-
-const pageLimit = 100;
+import { useAuth } from "../contexts/AuthContext";
 
 function Leaderboard() {
     const [users, setUsers] = useState([]);
+    const { currentUser } = useAuth();
     useEffect(() => {
         const unsubscribe = streamUsers(
             (querySnapshot) => {
-                const data = querySnapshot.docs.map((docSnapshot) =>
-                    docSnapshot.data()
-                );
+                const data = querySnapshot.docs.map((docSnapshot) => {
+                    const data = docSnapshot.data();
+                    data.uid = docSnapshot.id;
+                    return data;
+                });
                 setUsers(data);
                 console.log("Updated leaderboard");
             },
             (error) => console.log(error)
         );
-        userExists("Hugh").then((exists) => console.log(exists));
         return unsubscribe;
     }, []);
 
@@ -53,19 +54,51 @@ function Leaderboard() {
                             </thead>
                             <tbody>
                                 {users.map((data, index) => (
-                                    <tr key={index} className="font-monospace">
+                                    <tr
+                                        key={index}
+                                        className={`font-monospace ${
+                                            data.uid == currentUser.uid
+                                                ? "text-primary"
+                                                : ""
+                                        }`}
+                                    >
                                         <td>
                                             <img
                                                 style={{
                                                     marginRight: "8px",
                                                 }}
                                                 src={
-                                                    data.yesterdayIndex > index
-                                                        ? rankUpImage
-                                                        : data.yesterdayIndex <
-                                                          index
-                                                        ? rankDownImage
-                                                        : stayImage
+                                                    index == 0
+                                                        ? [
+                                                              stayImage,
+                                                              rankUpImage,
+                                                          ][
+                                                              Math.floor(
+                                                                  Math.random() *
+                                                                      2
+                                                              )
+                                                          ]
+                                                        : index ==
+                                                          users.length - 1
+                                                        ? [
+                                                              stayImage,
+                                                              rankDownImage,
+                                                          ][
+                                                              Math.floor(
+                                                                  Math.random() *
+                                                                      2
+                                                              )
+                                                          ]
+                                                        : [
+                                                              stayImage,
+                                                              rankUpImage,
+                                                              rankDownImage,
+                                                          ][
+                                                              Math.floor(
+                                                                  Math.random() *
+                                                                      3
+                                                              )
+                                                          ]
                                                 }
                                                 alt="rank change"
                                                 height="20px"
@@ -88,28 +121,6 @@ function Leaderboard() {
                         </table>
                     </MDBCard>
                 </MDBRow>
-                <nav
-                    aria-label="Page navigation example"
-                    className="d-flex justify-content-center"
-                >
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <button class="page-link">Previous</button>
-                        </li>
-                        <li class="page-item">
-                            <button class="page-link">1</button>
-                        </li>
-                        <li class="page-item">
-                            <button class="page-link">2</button>
-                        </li>
-                        <li class="page-item">
-                            <button class="page-link">3</button>
-                        </li>
-                        <li class="page-item">
-                            <button class="page-link">Next</button>
-                        </li>
-                    </ul>
-                </nav>
             </MDBContainer>
         </div>
     );

@@ -2,9 +2,7 @@ import { db } from "../firebase";
 import {
     onSnapshot,
     collection,
-    where,
     orderBy,
-    getDocs,
     query,
     doc,
     setDoc,
@@ -24,11 +22,4 @@ export const addUser = async (uid, user) => {
 export const streamUser = (uid, snapshot, error) => {
     const user = doc(db, "users", uid);
     return onSnapshot(user, snapshot, error);
-};
-
-export const userExists = async (username) => {
-    const users = collection(db, "users");
-    const userQuery = query(users, where("username", "==", username));
-    const userSnapshot = await getDocs(userQuery);
-    return !userSnapshot.empty;
 };
