@@ -18,3 +18,8 @@ export const addUser = async (uid, user) => {
     const users = collection(db, "users");
     await setDoc(doc(users, uid), user);
 };
+
+export const streamUser = (uid, snapshot, error) => {
+    const user = doc(db, "users", uid);
+    return onSnapshot(user, snapshot, error);
+};

@@ -150,6 +150,15 @@ code {
 
 /* Leaderboard */
 
+.Leaderboard {
+  background-image: url('./images/leaderboard.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+}
+
 table.leaderboardTable {
   width: 100%;
   height: 100px;
@@ -164,21 +173,23 @@ table.leaderboardTable th {
 }
 
 table.leaderboardTable th {
-  color: gray;
+  color: dimgray;
   font-weight: normal;
 }
 
 /* Profile */
 
 .Account {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: top;
-  background-image: url('./images/profile.gif');
+  background-image: url('./images/profile.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
   width: 100vw;
+}
+
+.Navbar {
+    width: 100vw;
+    position: fixed;
+    top: 0;
 }

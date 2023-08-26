@@ -114,7 +114,10 @@ export default function Signup() {
                                     }}
                                 >
                                     {countries.map((country) => (
-                                        <option value={country.code}>
+                                        <option
+                                            key={country.code}
+                                            value={country.code}
+                                        >
                                             {country.name}
                                         </option>
                                     ))}
