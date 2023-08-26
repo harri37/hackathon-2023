@@ -1,12 +1,15 @@
+import React, { useState, useEffect } from "react";
 import { rankUpImage, rankDownImage, stayImage } from "../images/images";
 import { Button } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { streamUsers } from "../contexts/Database";
+
+// const q = query(collection(db, "users"), orderBy("rating", "desc"));
 
 function Leaderboard() {
     const { logout } = useAuth();
     const navigate = useNavigate();
-
     async function handleLogout() {
         try {
             await logout();
@@ -15,6 +18,21 @@ function Leaderboard() {
             console.log("Failed to log out");
         }
     }
+
+    const { currentUser } = useAuth();
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+        const unsubscribe = streamUsers(
+            (querySnapshot) => {
+                const data = querySnapshot.docs.map((docSnapshot) =>
+                    docSnapshot.data()
+                );
+                setUsers(data);
+            },
+            (error) => console.log(error)
+        );
+        return unsubscribe;
+    }, [users, setUsers]);
 
     return (
         <div style={{ padding: "10px 40px" }}>
@@ -41,7 +59,7 @@ function Leaderboard() {
                     </tr>
                 </thead>
                 <tbody>
-                    {testData.map((data, index) => (
+                    {users.map((data, index) => (
                         <tr key={index}>
                             <td>
                                 <img
@@ -69,12 +87,14 @@ function Leaderboard() {
                                     alt="flag"
                                 />
                             </td>
-                            <td>{data.skillRating}</td>
+                            <td>{data.rating}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-
+            <p>
+                Logged in as: <strong>{currentUser.uid}</strong>
+            </p>
             <Button
                 variant="primary"
                 onClick={handleLogout}
@@ -85,36 +105,5 @@ function Leaderboard() {
         </div>
     );
 }
-
-const testData = [
-    {
-        username: "Username",
-        nationality: "AU",
-        height: "6'3",
-        skillRating: 4320,
-        yesterdayIndex: 2,
-    },
-    {
-        username: "Username2",
-        nationality: "GR",
-        height: "6'3",
-        skillRating: 4317,
-        yesterdayIndex: 1,
-    },
-    {
-        username: "Username3",
-        nationality: "SC",
-        height: "6'2",
-        skillRating: 4294,
-        yesterdayIndex: 0,
-    },
-    {
-        username: "Username4",
-        nationality: "CA",
-        height: "6'1",
-        skillRating: 4246,
-        yesterdayIndex: 3,
-    },
-];
 
 export default Leaderboard;

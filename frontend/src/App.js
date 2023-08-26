@@ -5,15 +5,14 @@ import { Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "./contexts/AuthContext";
 import Signup from "./pages/Signup";
-import Login from "./pages/Login";
+
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
     return (
         <AuthProvider>
             <Routes>
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/login" element={<Signup />} />
                 <Route
                     path="/"
                     element={
