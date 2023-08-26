@@ -104,14 +104,16 @@ code {
 }
 
 .Message {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   margin-bottom: 1rem;
   border-radius: 5px;
-  border: 1px solid #000000;
+  border: 1px solid white;
   padding: 0.5rem;
   margin-bottom: 3px;
   max-width: 80%;
+  cursor: default;
+  word-wrap: break-word;
 }
 
 .Chat {
@@ -166,4 +168,36 @@ table.leaderboardTable th {
 table.leaderboardTable th {
   color: gray;
   font-weight: normal;
+}
+
+.GameTimer {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.Score {
+  position: absolute;
+  top: 10px;
+}
+
+.Stat {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
+
+.StatName {
+  font-weight: bold;
+}
+
+.Link {
+  cursor: pointer;
 }
