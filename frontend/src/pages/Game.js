@@ -1,9 +1,22 @@
 import { useState, useRef, useEffect } from "react";
 import OpenAI from "openai";
+import speech from "speech-synth";
+import { personlities } from "../data/personalities";
+
+const LENGTH_PROMPT =
+  "keep your messages short and sweet. any more than 2 sentences and you will seem over interested.";
+
 function Game() {
+  const personality =
+    personlities[Math.floor(Math.random() * personlities.length)];
+
+  console.log(personality.name);
+
   const [messages, setMessages] = useState([
-    { role: "system", content: "Hiiiiiiiiiiiiiiiiiiiiiiiii" },
+    { role: "system", content: personality.start },
   ]);
+
+  console.log(speech.getVoiceNames());
 
   const openai = new OpenAI({
     apiKey: process.env.REACT_APP_OPENAI_KEY,
@@ -30,8 +43,7 @@ function Game() {
           messages: [
             {
               role: "system",
-              content:
-                "You are a very shy uwu anime girl who is trying to find love but is too shy to talk to anyone.",
+              content: personality.prompt + " " + LENGTH_PROMPT,
             },
             ...messages,
             { role: "user", content: text },
@@ -39,7 +51,10 @@ function Game() {
           model: "gpt-3.5-turbo",
         })
         .then((response) => {
-          console.log(response);
+          speech.say(
+            response.choices[0].message.content,
+            speech.getVoiceNames()[19]
+          );
           setMessages([
             ...messages,
             { role: "user", content: text },
