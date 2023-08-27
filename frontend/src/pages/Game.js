@@ -9,7 +9,7 @@ import { useNavigate } from "react-router";
 const LENGTH_PROMPT =
   "keep your messages short and sweet. any more than 2 sentences and you will seem over interested.";
 
-const GAME_TIME = 0;
+const GAME_TIME = 180000;
 
 function Game() {
   const [personality, setPersonality] = useState(
@@ -200,10 +200,13 @@ function Game() {
               onClick={() => {
                 setGameOver(false);
                 setGameTime(180000);
-                setMessages([{ role: "system", content: personality.start }]);
-                setPersonality(
-                  personlities[Math.floor(Math.random() * personlities.length)]
-                );
+                const new_personality =
+                  personlities[Math.floor(Math.random() * personlities.length)];
+                setMessages([
+                  { role: "system", content: new_personality.start },
+                ]);
+                setPersonality(new_personality);
+
                 setScore(0);
               }}
             >
