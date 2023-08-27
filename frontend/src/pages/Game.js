@@ -5,6 +5,8 @@ import { personlities } from "../data/personalities";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useNavigate } from "react-router";
+import { useAuth } from "../contexts/AuthContext";
+import { addRating } from "../contexts/Database";
 
 const LENGTH_PROMPT =
   "keep your messages short and sweet. any more than 2 sentences and you will seem over interested.";
@@ -27,6 +29,7 @@ function Game() {
   const [gameOver, setGameOver] = useState(false);
   const [sentimentScore, setSentimentScore] = useState(0);
 
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -94,6 +97,7 @@ function Game() {
     if (gameOver) {
       setScore(responseTimeScore + messageLengthScore + sentimentScore);
     }
+    addRating(currentUser.uid, score);
   }, [gameOver]);
 
   const openai = new OpenAI({
@@ -199,7 +203,7 @@ function Game() {
               style={{ cursor: "pointer", textDecoration: "none" }}
               onClick={() => {
                 setGameOver(false);
-                setGameTime(180000);
+                setGameTime(GAME_TIME);
                 const new_personality =
                   personlities[Math.floor(Math.random() * personlities.length)];
                 setMessages([
@@ -233,7 +237,12 @@ function Game() {
   }
 
   return (
-    <div className="Game">
+    <div
+      className="Game"
+      style={{
+        backgroundImage: `url(${require(`../images/${personality.background}`)})`,
+      }}
+    >
       <GameTimer />
       <Chat messages={messages} />
       <InputBox />
