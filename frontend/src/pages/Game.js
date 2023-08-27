@@ -4,15 +4,17 @@ import speech from "speech-synth";
 import { personlities } from "../data/personalities";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const LENGTH_PROMPT =
   "keep your messages short and sweet. any more than 2 sentences and you will seem over interested.";
 
-const GAME_TIME = 18000;
+const GAME_TIME = 180000;
 
 function Game() {
-  const [personality, setPersonality] = useState(personlities[9]);
+  const [personality, setPersonality] = useState(
+    personlities[Math.floor(Math.random() * personlities.length)]
+  );
   const [text, setText] = useState("");
   const [gameTime, setGameTime] = useState(GAME_TIME);
   const [responseTimeScore, setResponseTimeScore] = useState(GAME_TIME);
@@ -24,6 +26,8 @@ function Game() {
   ]);
   const [gameOver, setGameOver] = useState(false);
   const [sentimentScore, setSentimentScore] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (messages[messages.length - 1].role === "system") {
@@ -44,8 +48,9 @@ function Game() {
           .then((data) => {
             console.log(data);
             setSentimentScore(
-              sentimentScore + 100 * data.ibm.general_sentiment_rate
+              Math.floor(sentimentScore + 100 * data.ibm.general_sentiment_rate)
             );
+            setScore(score + Math.floor(100 * data.ibm.general_sentiment_rate));
           })
           .catch((error) => {
             console.log(error);
@@ -72,6 +77,7 @@ function Game() {
     }
     if (responseTimeScore > 0) {
       setResponseTimeScore(previousMessageTime - gameTime);
+      setScore(score + previousMessageTime - gameTime);
     }
   }, [messages]);
 
@@ -80,12 +86,13 @@ function Game() {
       setMessageLengthScore(
         messageLengthScore + messages[messages.length - 1].content.length
       );
+      setScore(score + messages[messages.length - 1].content.length);
     }
   }, [messages]);
 
   useEffect(() => {
     if (gameOver) {
-      setScore(responseTimeScore + messageLengthScore);
+      setScore(responseTimeScore + messageLengthScore + sentimentScore);
     }
   }, [gameOver]);
 
@@ -182,14 +189,25 @@ function Game() {
             </ListGroup.Item>
           </ListGroup>
           <Card.Body>
-            <Card.Link>
-              <Link to="/">Home</Link>
+            <Card.Link
+              style={{ cursor: "pointer", textDecoration: "none" }}
+              onClick={() => navigate("/")}
+            >
+              Home
             </Card.Link>
             <Card.Link
+              style={{ cursor: "pointer", textDecoration: "none" }}
               onClick={() => {
                 setGameOver(false);
                 setGameTime(180000);
-                setMessages([{ role: "system", content: personality.start }]);
+                const new_personality =
+                  personlities[Math.floor(Math.random() * personlities.length)];
+                setMessages([
+                  { role: "system", content: new_personality.start },
+                ]);
+                setPersonality(new_personality);
+
+                setScore(0);
               }}
             >
               Play Again
@@ -205,8 +223,11 @@ function Game() {
     const seconds = Math.floor((gameTime % 60000) / 1000);
     return (
       <div className="GameTimer">
-        {minutes}:{seconds < 10 ? "0" : ""}
-        {seconds}
+        <div className="time">
+          {minutes}:{seconds < 10 ? "0" : ""}
+          {seconds}
+        </div>
+        <div className="score">{Math.floor(score)}</div>
       </div>
     );
   }

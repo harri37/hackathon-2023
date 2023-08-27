@@ -187,6 +187,7 @@ table.leaderboardTable th {
   padding: 10px;
   font-size: 2rem;
   font-weight: bold;
+  justify-content: space-between;
 }
 
 .Score {
