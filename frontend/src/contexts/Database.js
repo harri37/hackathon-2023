@@ -6,6 +6,8 @@ import {
     query,
     doc,
     setDoc,
+    updateDoc,
+    getDoc,
 } from "firebase/firestore";
 
 export const streamUsers = (snapshot, error) => {
@@ -22,4 +24,21 @@ export const addUser = async (uid, user) => {
 export const streamUser = (uid, snapshot, error) => {
     const user = doc(db, "users", uid);
     return onSnapshot(user, snapshot, error);
+};
+
+export const getRating = async (uid) => {
+    const user = doc(db, "users", uid);
+    const docSnap = await getDoc(user);
+    if (docSnap.exists()) {
+        return docSnap.data().rating;
+    }
+};
+
+export const addRating = async (uid, toAdd) => {
+    const user = doc(db, "users", uid);
+    let rating = await getRating(uid);
+    // get the current rating
+    rating += toAdd;
+    // update the rating
+    await updateDoc(user, { rating: rating, merge: true });
 };
