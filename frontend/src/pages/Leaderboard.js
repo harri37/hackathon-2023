@@ -73,73 +73,70 @@ function Leaderboard() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {[...users, ...testUsers].map(
-                                        (data, index) => (
-                                            <tr
-                                                key={index}
-                                                className={`font-monospace ${
-                                                    data.uid === currentUser.uid
-                                                        ? "text-primary"
-                                                        : ""
-                                                }`}
-                                            >
-                                                <td>
-                                                    <img
-                                                        style={{
-                                                            marginRight: "8px",
-                                                        }}
-                                                        src={
-                                                            index === 0
-                                                                ? [
-                                                                      stayImage,
-                                                                      rankUpImage,
-                                                                  ][
-                                                                      Math.floor(
-                                                                          Math.random() *
-                                                                              2
-                                                                      )
-                                                                  ]
-                                                                : index ===
-                                                                  users.length -
-                                                                      1
-                                                                ? [
-                                                                      stayImage,
-                                                                      rankDownImage,
-                                                                  ][
-                                                                      Math.floor(
-                                                                          Math.random() *
-                                                                              2
-                                                                      )
-                                                                  ]
-                                                                : [
-                                                                      stayImage,
-                                                                      rankUpImage,
-                                                                      rankDownImage,
-                                                                  ][
-                                                                      Math.floor(
-                                                                          Math.random() *
-                                                                              3
-                                                                      )
-                                                                  ]
-                                                        }
-                                                        alt="rank change"
-                                                        height="20px"
-                                                    />
-                                                    {index + 1}
-                                                </td>
-                                                <td>{data.username}</td>
-                                                <td>{data.height}</td>
-                                                <td>
-                                                    <img
-                                                        height={32}
-                                                        src={`https://flagsapi.com/${data.nationality}/flat/64.png`}
-                                                        alt="flag"
-                                                    />
-                                                </td>
-                                                <td>{data.rating}</td>
-                                            </tr>
-                                        )
-                                    )}
+                                    {users.map((data, index) => (
+                                        <tr
+                                            key={index}
+                                            className={`font-monospace ${
+                                                data.uid === currentUser.uid
+                                                    ? "text-primary"
+                                                    : ""
+                                            }`}
+                                        >
+                                            <td>
+                                                <img
+                                                    style={{
+                                                        marginRight: "8px",
+                                                    }}
+                                                    src={
+                                                        index === 0
+                                                            ? [
+                                                                  stayImage,
+                                                                  rankUpImage,
+                                                              ][
+                                                                  Math.floor(
+                                                                      Math.random() *
+                                                                          2
+                                                                  )
+                                                              ]
+                                                            : index ===
+                                                              users.length - 1
+                                                            ? [
+                                                                  stayImage,
+                                                                  rankDownImage,
+                                                              ][
+                                                                  Math.floor(
+                                                                      Math.random() *
+                                                                          2
+                                                                  )
+                                                              ]
+                                                            : [
+                                                                  stayImage,
+                                                                  rankUpImage,
+                                                                  rankDownImage,
+                                                              ][
+                                                                  Math.floor(
+                                                                      Math.random() *
+                                                                          3
+                                                                  )
+                                                              ]
+                                                    }
+                                                    alt="rank change"
+                                                    height="20px"
+                                                />
+                                                {index + 1}
+                                            </td>
+                                            <td>{data.username}</td>
+                                            <td>{data.height}</td>
+                                            <td>
+                                                <img
+                                                    height={32}
+                                                    src={`https://flagsapi.com/${data.nationality}/flat/64.png`}
+                                                    alt="flag"
+                                                />
+                                            </td>
+                                            <td>{data.rating}</td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
